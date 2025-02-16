@@ -43,8 +43,8 @@ Leitner Flashcard Learning App is a web application that helps users **create, r
 
 ### 1️⃣ Clone the Repository
 ```sh
-git clone https://github.com/yourusername/leitner-flashcards.git
-cd leitner-flashcards
+git clone https://github.com/wishaldubey/ALFREDTASK.git
+cd ALFREDTASK
 ```
 
 ### 2️⃣ Setup Backend
