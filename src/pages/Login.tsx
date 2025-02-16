@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Link, useNavigate } from "react-router-dom";
-import { Brain } from "lucide-react";
+import { BookOpen  } from "lucide-react";
 import toast from "react-hot-toast";
 import api from "../lib/axios";
 import { useAuth } from "../contexts/AuthContext";
@@ -53,7 +53,7 @@ function Login() {
       </div>
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <Brain className="mx-auto h-12 w-12 text-indigo-600 dark:text-indigo-400" />
+          <BookOpen  className="mx-auto h-12 w-12 text-indigo-600 dark:text-indigo-400" />
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900 dark:text-white">
             Sign in to your account
           </h2>
