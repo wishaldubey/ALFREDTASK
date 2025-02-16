@@ -2,6 +2,7 @@ import express from "express";
 import { body, validationResult } from "express-validator";
 import { auth } from "../middleware/auth.js";
 import Flashcard from "../models/Flashcard.js";
+import moment from "moment-timezone"; // Ensure this is installed: npm install moment-timezone
 
 const router = express.Router();
 
@@ -20,15 +21,21 @@ router.get("/", auth, async (req, res) => {
 // Get next flashcard for review
 router.get("/next", auth, async (req, res) => {
   try {
-    const now = new Date();
+    const userTimezone = req.user.timezone || "Asia/Kolkata"; // Default to IST if not set
+
+    // Get user's local midnight in UTC
+    const userMidnightUTC = moment().tz(userTimezone).startOf("day").utc().toDate();
+
+    console.log("Checking cards due before:", userMidnightUTC, "UTC");
+
     const card = await Flashcard.findOne({
       user: req.user.id,
-      nextReviewDate: { $lte: now },
+      nextReviewDate: { $lte: userMidnightUTC },
     }).sort({ nextReviewDate: 1 });
 
     const dueCount = await Flashcard.countDocuments({
       user: req.user.id,
-      nextReviewDate: { $lte: now },
+      nextReviewDate: { $lte: userMidnightUTC },
     });
 
     res.json({ card, dueCount });
@@ -37,7 +44,6 @@ router.get("/next", auth, async (req, res) => {
   }
 });
 
-// Create flashcard
 // Create flashcard
 router.post(
   "/",
@@ -57,7 +63,6 @@ router.post(
       const { question, answer } = req.body;
       const userId = req.user?.id;
 
-      // 🔥 Log received user ID
       console.log("📌 Creating flashcard for user:", userId);
 
       if (!userId) {
@@ -72,7 +77,7 @@ router.post(
         question,
         answer,
         box: 1,
-        nextReviewDate: new Date(),
+        nextReviewDate: moment().tz(req.user.timezone || "Asia/Kolkata").startOf("day").toDate(),
       });
 
       await flashcard.save();
