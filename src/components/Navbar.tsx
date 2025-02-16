@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Brain, LogOut, Menu, X } from "lucide-react";
+import { BookOpen, LogOut, Menu, X } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import DarkModeToggle from "./DarkModeToggle";
 
@@ -23,7 +23,7 @@ function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <Brain className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+            <BookOpen className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
             <span className="text-xl font-bold text-gray-900 dark:text-white">
               Leitner Cards
             </span>
