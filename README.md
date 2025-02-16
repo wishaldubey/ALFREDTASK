@@ -1,6 +1,6 @@
 # 📚 Leitner Flashcard Learning App Submission by Vishal Dubey
 
-#LIVE LINK :- 
+#LIVE LINK (Note :- backend is hosted on Render so it will take few seconds to load on first boot) :- 
 https://vishalalfredtask.vercel.app
 
 ## 🚀 Project Overview
