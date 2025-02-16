@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { jwtDecode } from 'jwt-decode';
-import type { User } from '../types';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
+import type { User } from "../types";
 
 interface AuthContextType {
   user: User | null;
@@ -15,31 +15,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       try {
         const decoded = jwtDecode<User>(token);
         setUser(decoded);
       } catch (error) {
-        localStorage.removeItem('token');
+        localStorage.removeItem("token");
         setUser(null);
       }
     }
   }, []);
 
   const login = (token: string) => {
-    localStorage.setItem('token', token);
+    localStorage.setItem("token", token);
     const decoded = jwtDecode<User>(token);
     setUser(decoded);
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setUser(null);
+    window.location.href = "/login"; // Redirect to login page
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAuthenticated: !!user }}>
+    <AuthContext.Provider
+      value={{ user, login, logout, isAuthenticated: !!user }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -48,7 +51,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 }
