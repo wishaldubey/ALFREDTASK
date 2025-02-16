@@ -5,6 +5,13 @@ import toast from "react-hot-toast";
 import api from "../lib/axios";
 import type { Flashcard } from "../types";
 
+// Function to convert UTC date to IST
+const convertToIST = (utcDate: string) => {
+  const date = new Date(utcDate);
+  const istOffset = 5.5 * 60 * 60 * 1000; // IST is UTC+5:30
+  return new Date(date.getTime() + istOffset);
+};
+
 function Review() {
   const [currentCard, setCurrentCard] = useState<Flashcard | null>(null);
   const [showAnswer, setShowAnswer] = useState(false);
@@ -21,10 +28,22 @@ function Review() {
       console.log("Fetched card:", card);
       console.log("Cards due:", count);
 
-      // ✅ Map _id to id for consistency in the frontend
       if (card && card._id) {
         card = { ...card, id: card._id };
-        setCurrentCard(card);
+
+        // Convert `nextReviewDate` from UTC to IST
+        const nextReviewDateIST = convertToIST(card.nextReviewDate);
+        const todayIST = new Date();
+
+        // Remove time part from the date for accurate comparison
+        todayIST.setHours(0, 0, 0, 0);
+        nextReviewDateIST.setHours(0, 0, 0, 0);
+
+        if (nextReviewDateIST <= todayIST) {
+          setCurrentCard(card);
+        } else {
+          setCurrentCard(null);
+        }
       } else {
         setCurrentCard(null);
       }
