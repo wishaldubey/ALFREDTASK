@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Pencil, Trash2, Brain } from "lucide-react";
+import { Plus, Pencil, Trash2, BookOpen} from "lucide-react";
 import toast from "react-hot-toast";
 import { format } from "date-fns";
 import api from "../lib/axios";
@@ -168,7 +168,7 @@ function Dashboard() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center py-12"
         >
-          <Brain className="mx-auto h-12 w-12 text-gray-400" />
+          <BookOpen className="mx-auto h-12 w-12 text-gray-400" />
           <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-white">
             No flashcards
           </h3>
