@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Brain, ThumbsUp, ThumbsDown } from "lucide-react";
+import { BookOpen, ThumbsUp, ThumbsDown } from "lucide-react";
 import toast from "react-hot-toast";
 import api from "../lib/axios";
 import type { Flashcard } from "../types";
@@ -77,7 +77,7 @@ function Review() {
         animate={{ opacity: 1, y: 0 }}
         className="max-w-2xl mx-auto text-center py-12"
       >
-        <Brain className="mx-auto h-12 w-12 text-gray-400" />
+        <BookOpen className="mx-auto h-12 w-12 text-gray-400" />
         <h3 className="mt-2 text-lg font-medium text-gray-900 dark:text-white">
           No cards due for review
         </h3>
