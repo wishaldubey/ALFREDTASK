@@ -113,3 +113,4 @@ Frontend will be running at: `http://localhost:5173`
 📞 Phone: +91 9987391388
 
 
+Additionally, I wanted to mention that I have built a language learning app as a side project, which also includes a flashcard feature. You can check it out here:- https://polyglotchad.vercel.app/lessons
