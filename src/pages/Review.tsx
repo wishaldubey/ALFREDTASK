@@ -16,6 +16,7 @@ function Review() {
   const [currentCard, setCurrentCard] = useState<Flashcard | null>(null);
   const [showAnswer, setShowAnswer] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false); // New state to track button clicks
   const [dueCount, setDueCount] = useState(0);
 
   // Fetch the next card due for review
@@ -53,6 +54,7 @@ function Review() {
       toast.error("Failed to fetch next card");
     } finally {
       setIsLoading(false);
+      setIsSubmitting(false); // Reset submission state when new card loads
     }
   };
 
@@ -69,13 +71,19 @@ function Review() {
       return;
     }
 
+    // Prevent multiple submissions
+    if (isSubmitting) return;
+
     try {
+      setIsSubmitting(true); // Disable buttons
       await api.post(`/flashcards/${currentCard.id}/review`, { correct });
       toast.success(correct ? "Great job!" : "Keep practicing!");
       setShowAnswer(false);
       fetchNextCard(); // ✅ Fetch next card after reviewing
     } catch (error) {
       toast.error("Failed to update card progress");
+    } finally {
+      setIsSubmitting(false); // Re-enable buttons
     }
   };
 
@@ -169,14 +177,16 @@ function Review() {
             <div className="flex space-x-4">
               <button
                 onClick={() => handleResponse(false)}
-                className="flex-1 flex items-center justify-center btn-primary bg-red-600 hover:bg-red-700 focus:ring-red-500"
+                className="flex-1 flex items-center justify-center btn-primary bg-red-600 hover:bg-red-700 focus:ring-red-500 disabled:opacity-50"
+                disabled={isSubmitting} // Disable button while submitting
               >
                 <ThumbsDown className="w-5 h-5 mr-2" />
                 Got it Wrong
               </button>
               <button
                 onClick={() => handleResponse(true)}
-                className="flex-1 flex items-center justify-center btn-primary bg-green-600 hover:bg-green-700 focus:ring-green-500"
+                className="flex-1 flex items-center justify-center btn-primary bg-green-600 hover:bg-green-700 focus:ring-green-500 disabled:opacity-50"
+                disabled={isSubmitting} // Disable button while submitting
               >
                 <ThumbsUp className="w-5 h-5 mr-2" />
                 Got it Right
